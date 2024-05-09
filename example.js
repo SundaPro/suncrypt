@@ -1,8 +1,8 @@
 const zlib = require('zlib');
-const SundaneseCrypto = require('./index');
+const Suncrypt = require('./index');
 
 // Example usage
-const sundaneseCrypto = new SundaneseCrypto();
+const sundaneseCrypto = new Suncrypt();
 const key = sundaneseCrypto.generateKey(32);
 console.log('Generated Key[Sundanese]:', key + ' (length: ' + key.length + ')');
 console.log('Generated Key[Hex]:', key.toString('hex') + ' (length: ' + key.toString('hex').length + ')');
