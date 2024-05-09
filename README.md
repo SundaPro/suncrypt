@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub issues](https://img.shields.io/github/issues/SundaPro/suncrypt.svg)]()
 
-### suncrypt is a NodeJS library that provides Sundanese Unicode Cryptography Algorithm using AES-256 CBC Encryption.
+### suncrypt is a NodeJS library that provides [Sundanese Unicode](https://wikipedia.org/Sundanese](https://id.wikipedia.org/wiki/Aksara_Sunda) Cryptography Algorithm using AES-256 CBC Encryption.
 
 # Installation
 ```bash
