@@ -1,0 +1,25 @@
+{
+  "name": "suncrypt",
+  "version": "1.0.0",
+  "description": "Sundanese Cipher IV",
+  "main": "index.js",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SundaPro/suncrypt.git"
+  },
+  "keywords": [
+    "crypto",
+    "cipher",
+    "sundanese",
+    "iv"
+  ],
+  "author": "mrdhanz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SundaPro/suncrypt/issues"
+  },
+  "homepage": "https://github.com/SundaPro/suncrypt#readme"
+}
