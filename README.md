@@ -26,7 +26,7 @@ console.log(decrypted);
 ```
 
 # Example 
-- [Example](https://github/com/SundaPro/suncrypt/tree/main/example)
+- [Example](https://github.com/SundaPro/suncrypt/tree/main/example.js)
 
 # Contributors
 - [mrdhanz](https://github.com/mrdhanz)
