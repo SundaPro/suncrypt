@@ -1,4 +1,4 @@
-const Suncrypt = require('./index');
+const Suncrypt = require('./suncrypt');
 
 // Example usage
 const sundaneseCrypto = new Suncrypt();

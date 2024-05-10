@@ -1,11 +1,21 @@
 {
   "name": "suncrypt",
-  "version": "1.0.2",
-  "description": "Sundanese AES Cipher IV CBC",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "version": "1.0.3",
+  "description": "Sundanese encryption library for Browsers and Node.js",
+  "main": "dist/suncrypt.js",
+  "types": "./suncrypt.d.ts",
   "scripts": {
-    "test": "node example.js"
+    "lint": "eslint src tools",
+    "build": "npm run build:concat && npm run build:transpile && npm run build:wrap && npm run build:compress && node tools/distSize",
+    "build:concat": "rollup -f es -i src/suncrypt.js -o dist/suncrypt.js",
+    "build:transpile": "babel dist/suncrypt.js -o dist/suncrypt.js",
+    "build:wrap": "rollup -f umd -n SundaneseCrypto -i dist/suncrypt.js -o dist/suncrypt.js",
+    "build:compress": "uglifyjs dist/suncrypt.js -o dist/suncrypt.js -m -c",
+    "test": "npm run lint && npm run build && npm run mocha",
+    "mocha": "mocha",
+    "preversion": "npm test",
+    "version": "git add package.json package-lock.json",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
@@ -15,17 +25,35 @@
     "crypto",
     "cipher",
     "sundanese",
-    "iv",
     "aes",
     "cbc",
     "aksara",
     "sunda",
+    "encrypt",
+    "encryption",
+    "decrypt",
+    "decryption",
     "algoritm"
   ],
   "author": "mrdhanz",
   "license": "MIT",
+  "files": [
+    "LICENSE.md",
+    "README.md",
+    "dist/suncrypt.js",
+    "suncrypt.d.ts"
+  ],
   "bugs": {
     "url": "https://github.com/SundaPro/suncrypt/issues"
   },
-  "homepage": "https://github.com/SundaPro/suncrypt#readme"
+  "homepage": "https://github.com/SundaPro/suncrypt#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "eslint": "^7.32.0",
+    "mocha": "^10.4.0",
+    "rollup": "^4.17.2",
+    "uglify-js": "^3.17.4"
+  }
 }
