@@ -7,11 +7,17 @@ declare class SundaneseCrypto {
 
     constructor();
 
-    generateKey(len: number): Buffer;
-
-    encrypt(data: BinaryLike, key: BinaryLike): Buffer;
-
+    generateKey(len?: number = 32): Buffer;
+    encrypt(data: BinaryLike, key: BinaryLike): string;
     decrypt(data: BinaryLike, key: BinaryLike): string;
+    isValid(data: BinaryLike, key: BinaryLike): boolean;
+    private _encrypt(data: BinaryLike, key: BinaryLike): Buffer;
+    private _decrypt(data: BinaryLike, key: BinaryLike): string;
+    private _toSundanese(data: BinaryLike): string;
+    private _fromSundanese(data: BinaryLike): Buffer;
+    private _compress(data: BinaryLike, ...opt): Buffer;
+    private _decompress(data: BinaryLike, ...opt): Buffer;
+    
 }
 
 export = SundaneseCrypto;

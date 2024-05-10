@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const zlib = require('zlib');
 
 class SundaneseCrypto {
     constructor() {
@@ -7,7 +8,10 @@ class SundaneseCrypto {
         this.random = crypto.randomBytes(1).toString('hex');
     }
 
-    generateKey(len) {
+    generateKey(len = 32) {
+        if(len % 2 !== 0) throw new Error('Key length must be an even number');
+        if(len !== 32 && len != 16) throw new Error('Key length must be 32 or 16');
+
         const randomBytes = crypto.randomBytes(32);
         const result = Buffer.from(randomBytes.toString('hex').split('').map(char => {
             const index = parseInt(char, 16);
@@ -16,17 +20,21 @@ class SundaneseCrypto {
         return result.slice(0, len);
     }
 
-    encrypt(data, key) {
+    _encrypt(data, key) {
+        if(!this._isValidKey(key)) throw new Error('Invalid key');
+
         const iv = this.generateKey(16);
         const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         let encrypted = cipher.update(data, 'utf8', 'hex');
         encrypted += cipher.final('hex');
         const res = this.random + this.hafiz + iv.toString('hex') + this.hafiz + encrypted;
-        return Buffer.from(res);
+        return this._compress(Buffer.from(res));
     }
 
-    decrypt(data, key) {
-        const datax = Buffer.from(data).toString('utf8');
+    _decrypt(data, key) {
+        if(!this.isValid(data, key)) throw new Error('Invalid encrypted data or key');
+
+        const datax = this._decompress(data).toString('utf8');
         const [_, ivHex, encryptedHex] = datax.split(this.hafiz);
         const ivx = Buffer.from(ivHex, 'hex');
         const encrypted = Buffer.from(encryptedHex, 'hex');
@@ -35,6 +43,58 @@ class SundaneseCrypto {
         decrypted += decipher.final('utf8');
         return decrypted;
     }
+
+    // Buffer to Sundanese Characters
+    _toSundanese(buffer) {
+        return buffer.toString('hex').split('').map(char => {
+            const index = parseInt(char, 16);
+            return this.sundaneseCharacters[index];
+        }).join('');
+    }
+
+    // Sundanese Characters to Buffer
+    _fromSundanese(sundanese) {
+        return Buffer.from(`${sundanese}`.split('').map(char => {
+            const index = this.sundaneseCharacters.indexOf(char);
+            return index.toString(16);
+        }).join(''), 'hex');
+    }
+
+    _compress(data, ...opt) {
+        return zlib.deflateSync(data, ...opt);
+    }
+
+    _decompress(data, ...opt) {
+        return zlib.inflateSync(data, ...opt);
+    }
+
+    _isValidSundanese(str) {
+        return (typeof str === 'string' || typeof str == 'object') && this._fromSundanese(str).length > 0;
+    }
+
+    _isValidKey(key) {
+        return (typeof key === 'string' || typeof key == 'object') && key.length > 0;
+    }
+
+    _isValidEncrypted(encrypted) {
+        return (typeof encrypted == 'object');
+    }
+
+    isValid(data, key) {
+        return this._isValidEncrypted(data) && this._isValidKey(key);
+    }
+
+    encrypt(data, key) {
+        const encrypted = this._encrypt(data, key);
+        return this._toSundanese(encrypted);
+    }
+
+    decrypt(sundanese, key) {
+        if(!this._isValidSundanese(sundanese)) throw new Error('Invalid Sundanese characters');
+        const encrypted = this._fromSundanese(sundanese);
+        return this._decrypt(encrypted, key);
+    }
+
 }
 
 module.exports = SundaneseCrypto;

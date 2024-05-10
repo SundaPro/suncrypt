@@ -1,7 +1,7 @@
 {
   "name": "suncrypt",
-  "version": "1.0.0",
-  "description": "Sundanese Cipher IV",
+  "version": "1.0.2",
+  "description": "Sundanese AES Cipher IV CBC",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -15,7 +15,12 @@
     "crypto",
     "cipher",
     "sundanese",
-    "iv"
+    "iv",
+    "aes",
+    "cbc",
+    "aksara",
+    "sunda",
+    "algoritm"
   ],
   "author": "mrdhanz",
   "license": "MIT",
